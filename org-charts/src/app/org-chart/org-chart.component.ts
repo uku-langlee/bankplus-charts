@@ -4,6 +4,8 @@ import { ChartReadyEvent } from 'ng2-google-charts';
 import { ChartErrorEvent } from 'ng2-google-charts';
 import { ChartSelectEvent } from 'ng2-google-charts';
 import { ChartMouseOverEvent, ChartMouseOutEvent } from 'ng2-google-charts';
+import { ChartDetailService } from '../chart-detail.service';
+import { iOrgChart } from '../iorg-chart';
 
 
 @Component({
@@ -16,24 +18,15 @@ export class OrgChartComponent implements OnInit {
   @ViewChild('cchart') cchart;
 
   public selectEvent: ChartSelectEvent;
+  public orgChartData: iOrgChart;  
 
-  public orgChartData: any = {
-    chartType: 'OrgChart',
-    dataTable: [
-      [{ v: 'Mike', f: 'Mike<div style="color:red; font-style:italic">President</div>' },
-        '', 'The President'],
-      [{ v: 'Jim', f: 'Jim<div style="color:red; font-style:italic">Vice President</div>' },
-        'Mike', 'VP'],
-      ['Alice', 'Mike', ''],
-      ['Bob', 'Jim', 'Bob Sponge'],
-      ['Carol', 'Bob', '']
-    ],
-    options: { title: 'Countries' }
-  };
-
+  constructor(public chartDetailService: ChartDetailService){
+    chartDetailService = this.chartDetailService;
+  }
 
   ngOnInit() {
-
+    this.orgChartData = this.chartDetailService.getOrgChart1();
+    console.log(this.orgChartData)
   }
 
   public ready(event: ChartReadyEvent) {
