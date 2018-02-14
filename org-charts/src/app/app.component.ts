@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
-import { IEmployee } from 'ng-org-chart';
 
 @Component({
-	selector: 'app-core',
-	templateUrl: './app.component.html'
+  selector: 'app-core',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+  
 }
+
