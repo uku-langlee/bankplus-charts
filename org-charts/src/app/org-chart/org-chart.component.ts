@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ViewChild } from '@angular/core';
+import { ViewChild} from '@angular/core';
 import { ChartReadyEvent } from 'ng2-google-charts';
 import { ChartErrorEvent } from 'ng2-google-charts';
 import { ChartSelectEvent } from 'ng2-google-charts';
 import { ChartMouseOverEvent, ChartMouseOutEvent } from 'ng2-google-charts';
 import { ChartDetailService } from '../chart-detail.service';
 import { iOrgChart } from '../iorg-chart';
+import { Input } from '@angular/core';
 
 
 @Component({
@@ -16,9 +17,11 @@ import { iOrgChart } from '../iorg-chart';
 export class OrgChartComponent implements OnInit {
 
   @ViewChild('cchart') cchart;
+  @Input() orgChart: boolean;
 
   public selectEvent: ChartSelectEvent;
   public orgChartData: iOrgChart;  
+  
 
   constructor(public chartDetailService: ChartDetailService){
     chartDetailService = this.chartDetailService;
