@@ -24,7 +24,7 @@ export class AppComponent {
    return this.orgChartDisplay;
  }
  public backToOrgChart():boolean{
-   this.orgChartDisplay === !this.orgChartDisplay;
+  this.orgChartDisplay = !this.chartDetailService.getTopChart();
    console.log(this.orgChartDisplay);
    return this.orgChartDisplay;
  }
