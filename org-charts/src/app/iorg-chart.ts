@@ -3,7 +3,16 @@ export interface iOrgChart {
     dataTable: any[],
     options: {
         title?: string,
-        allowHtml?: boolean
-        allowCollapse?: boolean;
-    }
+        allowHtml?: boolean,
+        allowCollapse?: boolean,
+        nodeClass?: string
+    },
+    formatters?: [
+        {
+          columns?: number[],
+          type?: string,
+          options?: {
+          }
+        }
+      ]
 };

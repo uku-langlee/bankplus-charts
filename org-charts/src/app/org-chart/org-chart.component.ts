@@ -17,19 +17,24 @@ import { Input } from '@angular/core';
 export class OrgChartComponent implements OnInit {
 
   @ViewChild('cchart') cchart;
-  @Input() orgChart: boolean;
 
   public selectEvent: ChartSelectEvent;
-  public orgChartData: iOrgChart;  
+  public orgChartData: iOrgChart;
+  public topChart: boolean;  
   
 
   constructor(public chartDetailService: ChartDetailService){
-    chartDetailService = this.chartDetailService;
+    this.chartDetailService = chartDetailService;
   }
 
   ngOnInit() {
     this.orgChartData = this.chartDetailService.getOrgChart1();
+    this.topChart = this.chartDetailService.changeTopChart();
+    this.topChart = true;
     console.log(this.orgChartData)
+  }
+  public getTopChart():boolean{
+    return this.topChart;
   }
 
   public ready(event: ChartReadyEvent) {
@@ -41,6 +46,8 @@ export class OrgChartComponent implements OnInit {
   }
 
   public select(event: ChartSelectEvent) {
-    this.selectEvent = event;
+   this.selectEvent = event;
+   console.log(event.selectedRowValues)
+   this.chartDetailService.changeTopChart();
   }
 }
