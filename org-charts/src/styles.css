@@ -17,4 +17,7 @@
 .google-visualization-orgchart-lineright {
 	border-right: 2px solid grey!important;
 }
+.google-visualization-orgchart-table{
+    padding:0px;
+}
 
