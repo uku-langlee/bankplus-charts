@@ -1,3 +1,3 @@
 <h1>BankPlus</h1>
-<google-chart [data]="orgChartData" (chartSelect)='select($event)'></google-chart>
+<google-chart #cchart [data]="orgChartData" (chartSelect)='select($event)' (chartReady)='ready($event)'></google-chart>
 

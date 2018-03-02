@@ -20,22 +20,29 @@ export class EfficiencyRatioComponent implements OnInit {
     public selectEvent: ChartSelectEvent;
     public orgChartData: iOrgChart;
     public topChart: boolean;  
+    public chart:any;
     
   
     constructor(public chartDetailService: ChartDetailService){
       this.chartDetailService = chartDetailService;
     }
   
-    ngOnInit() {
+    ngOnInit() {      
       this.orgChartData = this.chartDetailService.getOrgChart2();
-      console.log(this.orgChartData)
     }
-    public getTopChart():boolean{
-      return this.topChart;
+    public getTopChart():any {
+      let googleChartWrapper = this.cchart.wrapper;
+      this.chart = googleChartWrapper.getChart();
+      this.chart.collapse(1, true);
+      this.chart.collapse(1, true);
+      this.chart.collapse(1, true);
+      console.log(this.chart.getCollapsedNodes());
+      return googleChartWrapper;
     }
   
     public ready(event: ChartReadyEvent) {
-      console.log(event.message);
+      console.log("ready");
+      
     }
   
     public error(event: ChartErrorEvent) {
@@ -44,8 +51,10 @@ export class EfficiencyRatioComponent implements OnInit {
   
     public select(event: ChartSelectEvent) {
      this.selectEvent = event;
-     if(event.row === 1){
-     console.log(event.selectedRowValues)
-     }
+     
+    }
+    public loadEvent(){
+      console.log('I happened');
+      this.getTopChart();
     }
   }

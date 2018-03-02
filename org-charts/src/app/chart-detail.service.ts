@@ -5,7 +5,6 @@ import { ChartSelectEvent } from 'ng2-google-charts';
 import { ChartMouseOverEvent, ChartMouseOutEvent } from 'ng2-google-charts';
 import { OrgChartComponent } from './org-chart/org-chart.component';
 import { EfficiencyRatioComponent } from './efficiency-ratio/efficiency-ratio.component';
-import { ErDetailComponent } from './er-detail/er-detail.component';
 import { iOrgChart } from './iorg-chart';
 
 @Injectable()
@@ -19,10 +18,28 @@ export class ChartDetailService {
     <br>
     <h3>Corporate Goals</h3>
   </div>`;
-  public roa = { v:'roaData', f: this.getRoaData()}
-  public er = {v:'erData', f:this.getErData()}
-  public pre = {v:'preData', f:this.getPreData()}
-  public roe = {v:'roeData', f:this.getRoeData()}
+  //first page table
+  //DataColor = database color. String is injected in HTML
+  //DataType = database data type (either $ or % usually). String is injected in HTML
+  //db = The actual database value
+  public dbRoa:number = 10.75;
+  public roaDataColor: string;
+  public roaDataType: string = "%"
+  public dbEr: number = 65.75;
+  public erDataColor: string;
+  public erDataType: string = "%";
+  public dbPre: number = 47625;
+  public preMax = 1000000;
+  public preDataColor: string;
+  public preDataType: string = "$";
+  public dbRoe: number = 10.99;
+  public roeDataColor: string;
+  public roeDataType: string = "%";
+  //Actual Data Table rows for chart. v: is just a menaingless title. f: is the actual value.
+  public roa = { v: 'roaData', f: this.getRoaData() }
+  public er = { v: 'erData', f: this.getErData() }
+  public pre = { v: 'preData', f: this.getPreData() }
+  public roe = { v: 'roeData', f: this.getRoeData() }
 
   public erTitle: string = `
   <div class="topTitle">
@@ -32,532 +49,570 @@ export class ChartDetailService {
     <br>
     <h3>Noninterest expense / (Interest income - interest expense + noninterest income)  </h3>
   </div>`;
-  public intExpense = {v:'intExp', f:this.getIntExpense()};
-  public nonIntExpense = {v:'nonIntExp',f:this.getNonIntExpense()};
-  public intIncome = {v:'intInc',f:this.getIntIncome()};
-  public nonIntIncome = {v:'nonIntInc',f:this.getNonIntIncome()};
-  public salariesBenefits= {v:'SalBen',f:this.getSalariesBenefits()};
-  public occupancy = {v:'occupancy',f:this.getOccuppancy()};
-  public dataProcessing = {v:'dataProc',f:this.getDataProcessing()};
-  public promAdvert = {v:'promAdvert',f:this.getPromAdvert()};
-  public fdicIns = {v:'fdicIns',f:this.getFdicIns()};
-  public atmSecOth = {v:'atmSecOth',f:this.getAtmSecurOth()};
-  public intOnLoans = {v:'intOnLoans',f:this.getIntOnLoans()};
-  public feesOnLoans = {v:'feesOnLoans',f:this.getFeesOnLoans()};
-  public investIncome = {v:'investIncome',f:this.getInvestmentIncome()};
-  public taxBenExempt = {v:'taxBenExempt',f:this.getTaxBenExempt()};
-  public loanYield = {v:'loanYield',f:this.getLoanYield()};
-  public loanVolume = {v:'LoanVolume',f:this.getLoanVolume()};
-  public invSecurYield = {v:'invSecurYield',f:this.getInvSecurYield()};
-  public checkDeposits = {v:'checkDeposits',f:this.getCheckingDeposits()};
-  public certsOfDeps = {v:'certsOfDeps',f:this.getCertOfDeposits()};
-  public saveMonMarDeps = {v:'saveMonMarDeps',f:this.getSaveMoneyMarkDep()};
-  public otherBorFunds = {v:'otherBorFunds',f:this.getOthBorrowedFunds()};
-  public servChargeOnDeps = {v:'ServChargeOnDeps',f:this.getServiceChargOnDep()};
-  public wealthManage = {v:'wealthManage',f:this.getWealthManage()};
-  public checkcardOther = {v:'checkcardOther',f:this.getCheckcardOther()};
-  public oreIncome = {v:'oreIncome',f:this.getOREIncome()};
-  
- 
-  public getOrgChart1():iOrgChart{
-  this.orgChart1 = {    
-    chartType: 'OrgChart',
-    dataTable: [
-     ['title',this.topTitle,''],
-     [this.roa,this.topTitle,''],
-     [this.er,this.topTitle,'Clcik Here for Details'],
-     [this.pre,this.topTitle,''],
-     [this.roe,this.topTitle,'']
-    ],
-    options: {
+  public intExpense;
+  public nonIntExpense;
+  public intIncome;
+  public nonIntIncome;
+  public salariesBenefits;
+  public occupancy;
+  public dataProcessing;
+  public promAdvert;
+  public fdicIns;
+  public atmSecOth;
+  public intOnLoans;
+  public feesOnLoans;
+  public investIncome;
+  public taxBenExempt;
+  public loanYield;
+  public loanVolume;
+  public invSecurYield;
+  public checkDeposits;
+  public certsOfDeps;
+  public saveMonMarDeps;
+  public otherBorFunds;
+  public servChargeOnDeps;
+  public wealthManage;
+  public checkcardOther;
+  public oreIncome;
+
+  public dbIntExp: number = 8547;
+  public intExpDataType: string = "$";
+  public dbNonIntExp: number = 94162;
+  public nonIntExpDataType: string = "$";
+  public dbIntInc: number = 97107;
+  public intIncDataType: string = "$";
+  public dbNonIntInc: number = 50636;
+  public nonIntIncDataType: string = "$";
+  public dbSalBen: number = 53486;
+  public salBenDataType: string = "$";
+  public dbOccupancy: number = 12545;
+  public occupancyDataType: string = "$";
+  public dbDataProc: number = 8406;
+  public dataProcDataType: string = "$";
+  public dbPromAdvert: number = 2832;
+  public promAdvertDataType: string = "$";
+  public dbFdicIns: number = 1408;
+  public fdicInsDataType: string = "$";
+  public dbAtmSecurOth: number = 15485;
+  public atmSecurOthDataType: string = "$";
+  public dbIntOnLoans: number = 79925;
+  public intOnLoansDataType: string = "$";
+  public dbFeesOnLoans: number = 4509;
+  public feesOnLoansDataType: string = "$";
+  public dbInvIncome: number = 10922;
+  public invIncomeDataType: string = "$";
+  public dbTaxBenExempt: number = 1751;
+  public taxBenExemptDataType: string = "$";
+  public dbLoanYield: number = 4.96;
+  public loanYieldDataType: string = "%";
+  public dbLoanVolume: number = 1921777;
+  public loanVolumeDataType: string = "$";
+  public dbInvSecurYield: number = 1.95;
+  public invSecurYieldDataType: string = "%";
+  public dbCheckingDep: number = 1142;
+  public checkingDepDataType: string = "$";
+  public dbCertOfDep: number = 1848;
+  public certOfDepDataType: string = "$";
+  public dbSaveMonMarDep: number = 389;
+  public saveMonMarDepDataType: string = "$";
+  public dbOthBorFunds: number = 5168;
+  public othBorFundsDataType: string = "$";
+  public dbServChargeOnDep: number = 25783;
+  public servChargeOnDepDataType: string = "$";
+  public dbWealthManage: number = 9047;
+  public wealthManageDataType: string = "$";
+  public dbOREIncome: number = 757;
+  public oreIncomeDataType: string = "$";
+  public dbCheckcardOth: number = 15049;
+  public checkcardOthDataType: string = "$";
+
+  constructor(){
+    this.oreIncome = { v: 'oreIncome', f: this.getOREIncome() };
+    this.intExpense = { v: 'intExp', f: this.getIntExpense() };
+    this.nonIntExpense = { v: 'nonIntExp', f: this.getNonIntExpense() };
+    this.intIncome = { v: 'intInc', f: this.getIntIncome() };
+    this.nonIntIncome = { v: 'nonIntInc', f: this.getNonIntIncome() };
+    this.salariesBenefits = { v: 'SalBen', f: this.getSalariesBenefits() };
+    this.occupancy = { v: 'occupancy', f: this.getOccuppancy() };
+    this.dataProcessing = { v: 'dataProc', f: this.getDataProcessing() };
+    this.promAdvert = { v: 'promAdvert', f: this.getPromAdvert() };
+    this.fdicIns = { v: 'fdicIns', f: this.getFdicIns() };
+    this.atmSecOth = { v: 'atmSecOth', f: this.getAtmSecurOth() };
+    this.intOnLoans = { v: 'intOnLoans', f: this.getIntOnLoans() };
+    this.feesOnLoans = { v: 'feesOnLoans', f: this.getFeesOnLoans() };
+    this.investIncome = { v: 'investIncome', f: this.getInvestmentIncome() };
+    this.taxBenExempt = { v: 'taxBenExempt', f: this.getTaxBenExempt() };
+    this.loanYield = { v: 'loanYield', f: this.getLoanYield() };
+    this.loanVolume = { v: 'LoanVolume', f: this.getLoanVolume() };
+    this.invSecurYield = { v: 'invSecurYield', f: this.getInvSecurYield() };
+    this.checkDeposits = { v: 'checkDeposits', f: this.getCheckingDeposits() };
+    this.certsOfDeps = { v: 'certsOfDeps', f: this.getCertOfDeposits() };
+    this.saveMonMarDeps = { v: 'saveMonMarDeps', f: this.getSaveMoneyMarkDep() };
+    this.otherBorFunds = { v: 'otherBorFunds', f: this.getOthBorrowedFunds() };
+    this.servChargeOnDeps = { v: 'ServChargeOnDeps', f: this.getServiceChargOnDep() };
+    this.wealthManage = { v: 'wealthManage', f: this.getWealthManage() };
+    this.checkcardOther = { v: 'checkcardOther', f: this.getCheckcardOther() };
+  }
+
+  public getOrgChart1(): iOrgChart {
+    this.orgChart1 = {
+      chartType: 'OrgChart',
+      dataTable: [
+        ['title', this.topTitle, ''],
+        [this.roa, this.topTitle, ''],
+        [this.er, this.topTitle, 'Clcik Here for Details'],
+        [this.pre, this.topTitle, ''],
+        [this.roe, this.topTitle, '']
+      ],
+      options: {
         title: 'Corporate Goals',
         allowHtml: true,
         allowCollapse: true,
         nodeClass: 'topChart'
-    },
-    formatters: [
-      {
-        columns: [1, 2],
-        type: 'NumberFormat',
-        options: {
-          prefix: '&euro;', negativeColor: '#FF0000', negativeParens: true
+      },
+      formatters: [
+        {
+          columns: [1, 2],
+          type: 'NumberFormat',
+          options: {
+            prefix: '&euro;', negativeColor: '#FF0000', negativeParens: true
+          }
         }
-      }
-    ],
+      ]
+    }
+    return this.orgChart1;
   }
-  return this.orgChart1;
-}
-public getOrgChart2():iOrgChart{
-  this.orgChart2 = {    
-    chartType: 'OrgChart',
-    dataTable: [
-     ['title',this.erTitle,''],
-     [this.nonIntExpense,this.erTitle,''],
-     [this.intIncome,this.erTitle,''],
-     [this.intExpense,this.erTitle,''],
-     [this.nonIntIncome,this.erTitle,''],
-     [this.salariesBenefits,this.nonIntExpense,''],
-     [this.occupancy,this.salariesBenefits,''],
-     [this.dataProcessing,this.occupancy,''],
-     [this.promAdvert,this.dataProcessing,''],
-     [this.fdicIns,this.promAdvert,''],
-     [this.atmSecOth,this.fdicIns,''],
-     [this.intOnLoans, this.intIncome, ''],
-     [this.feesOnLoans,this.intOnLoans,''],
-     [this.investIncome,this.feesOnLoans,''],
-     [this.taxBenExempt,this.investIncome,''],
-     [this.loanYield,this.taxBenExempt,''],
-     [this.loanVolume,this.loanYield,''],
-     [this.invSecurYield,this.loanVolume,''],
-     [this.checkDeposits,this.intExpense,''],
-     [this.certsOfDeps,this.checkDeposits,''],
-     [this.saveMonMarDeps,this.certsOfDeps,''],
-     [this.otherBorFunds,this.saveMonMarDeps,''],
-     [this.servChargeOnDeps,this.nonIntIncome,''],
-     [this.wealthManage,this.servChargeOnDeps,''],
-     [this.checkcardOther,this.wealthManage,''],
-     [this.oreIncome,this.checkcardOther,''],
-    ],
-    options: {
+  public getOrgChart2(): iOrgChart {
+    this.orgChart2 = {
+      chartType: 'OrgChart',
+      dataTable: [
+        ['title', this.erTitle, ''],
+        [this.nonIntExpense, this.erTitle, ''],
+        [this.intIncome, this.erTitle, ''],
+        [this.intExpense, this.erTitle, ''],
+        [this.nonIntIncome, this.erTitle, ''],
+        [this.salariesBenefits, this.nonIntExpense, ''],
+        [this.occupancy, this.salariesBenefits, ''],
+        [this.dataProcessing, this.occupancy, ''],
+        [this.promAdvert, this.dataProcessing, ''],
+        [this.fdicIns, this.promAdvert, ''],
+        [this.atmSecOth, this.fdicIns, ''],
+        [this.intOnLoans, this.intIncome, ''],
+        [this.feesOnLoans, this.intOnLoans, ''],
+        [this.investIncome, this.feesOnLoans, ''],
+        [this.taxBenExempt, this.investIncome, ''],
+        [this.loanYield, this.taxBenExempt, ''],
+        [this.loanVolume, this.loanYield, ''],
+        [this.invSecurYield, this.loanVolume, ''],
+        [this.checkDeposits, this.intExpense, ''],
+        [this.certsOfDeps, this.checkDeposits, ''],
+        [this.saveMonMarDeps, this.certsOfDeps, ''],
+        [this.otherBorFunds, this.saveMonMarDeps, ''],
+        [this.servChargeOnDeps, this.nonIntIncome, ''],
+        [this.wealthManage, this.servChargeOnDeps, ''],
+        [this.checkcardOther, this.wealthManage, ''],
+        [this.oreIncome, this.checkcardOther, ''],
+      ],
+      options: {
         title: 'Efficiency Ratios',
         allowHtml: true,
         allowCollapse: true,
         nodeClass: 'topChart'
-    },
-    formatters: [
-      {
-        columns: [1, 2],
-        type: 'NumberFormat',
-        options: {
-          prefix: '&euro;', negativeColor: '#FF0000', negativeParens: true
+      },
+      formatters: [
+        {
+          columns: [1, 2],
+          type: 'NumberFormat',
+          options: {
+            prefix: '&euro;', negativeColor: '#FF0000', negativeParens: true
+          }
         }
-      }
-    ],
+      ],
+    }
+    return this.orgChart2;
   }
-  return this.orgChart2;
-}
 
-public getTopChart():boolean{ 
-  
-  return this.topChart;
-}
-public changeTopChart(): boolean{
-  this.topChart = !this.topChart;
-  console.log(this.topChart);
-  return this.topChart;
-}
-public getRoaData(){
-  let data:string;
-  let dbRoa: number = 1.04;
-  let dataColor: string;
-  let roaDataType: string = "%";
- 
-  if(dbRoa>2){
-   dataColor = "red";
+  public getTopChart(): boolean {
+
+    return this.topChart;
   }
-  else{
-    dataColor = "green";
+  public changeTopChart(): boolean {
+    this.topChart = !this.topChart;
+    console.log(this.topChart);
+    return this.topChart;
   }
-  
-  data = `
+  public getRoaData() {
+    let data: string;  
+
+    if (this.dbRoa > 2) {
+      this.roaDataColor = "red";
+    }
+    else {
+      this.roaDataColor = "green";
+    }
+
+    data = `
   <div class="topRoa">
     <div class="roaTitle">
       <h3>ROA</h3>
     </div>
     <br>
-    <div style="background:`+dataColor+`;box-shadow: 1px 1px 1px grey;">
-      <h2>`+ dbRoa+roaDataType+`</h2>
+    <div style="background:`+ this.roaDataColor + `;box-shadow: 1px 1px 1px grey;">
+      <h2>`+ this.dbRoa + this.roaDataType + `</h2>
     </div>
   </div>  
   `
- 
-   return data;
- }
- public getErData(){
-  let data:string;
-  let dbEr: number = 65.75;
-  let erMax = 75;
-  let dataColor: string;
-  let erDataType: string = "%";
- 
-  if(dbEr<erMax){
-   dataColor = "red";
+
+    return data;
   }
-  else{
-    dataColor = "green";
-  }
-  
-  data =  `
+  public getErData() {
+    let data: string;
+    let erMax = 75;
+
+    if (this.dbEr < erMax) {
+      this.erDataColor = "red";
+    }
+    else {
+      this.erDataColor = "green";
+    }
+
+    data = `
   <div class="topEr">
     <div class="erTitle">
       <h3>Efficiency Ratio</h3>
     </div>
     <br>
-    <div style="background:`+dataColor+`;box-shadow: 1px 1px 1px grey;">
-      <h2>`+dbEr+erDataType+`</h2>
+    <div style="background:`+ this.erDataColor + `;box-shadow: 1px 1px 1px grey;">
+      <h2>`+ this.dbEr + this.erDataType + `</h2>
     </div>
   </div>  
   `
- 
-   return data;
- }
- public getPreData(){
-  let data:string;
-  let dbPre: number = 47625;
-  let preMax = 1000000;
-  let dataColor: string;
-  let preDataType: string = "$";
- 
-  if(dbPre>preMax){
-   dataColor = "red";
+
+    return data;
   }
-  else{
-    dataColor = "green";
-  }
-  
-  data =  `
+  public getPreData() {
+    let data: string;
+    let preMax = 1000000;
+
+    if (this.dbPre > preMax) {
+      this.preDataColor = "red";
+    }
+    else {
+      this.preDataColor = "green";
+    }
+
+    data = `
   <div class="topEr">
     <div class="erTitle">
       <h4>Pre-Tax, Pre-Provision, Pre-ORE Writedowns & Losses Operating Income report</h4>
     </div>
     <br>
     <div style="box-shadow: 1px 1px 1px grey;">
-      <h2>`+preDataType+dbPre+`</h2>
+      <h2>`+ this.preDataType + this.dbPre + `</h2>
     </div>
     <div>
       link YTD
     </div>
   </div>  
   `
- 
-   return data;
- }
- public getRoeData(){
-  let data:string;
-  let dbRoe: number = 10.99;
-  let dataColor: string;
-  let roeDataType: string = "%";
- 
-  if(dbRoe<10){
-   dataColor = "red";
+
+    return data;
   }
-  else{
-    dataColor = "green";
-  }
-  
-  data = `
+  public getRoeData() {
+    let data: string;
+   
+
+    if (this.dbRoe < 10) {
+      this.roeDataColor = "red";
+    }
+    else {
+      this.roeDataColor = "green";
+    }
+
+    data = `
   <div class="topRoa">
     <div class="roaTitle">
       <h3>ROA</h3>
     </div>
     <br>
-    <div style="background:`+dataColor+`;box-shadow: 1px 1px 1px grey;">
-      <h2>`+ dbRoe+roeDataType+`</h2>
+    <div style="background:`+ this.roeDataColor + `;box-shadow: 1px 1px 1px grey;">
+      <h2>`+ this.dbRoe + this.roeDataType + `</h2>
     </div>
   </div>  
   `
- 
-   return data;
- }
 
- public getIntExpense(){
-   let data: string;
-   let dbIntExp: number = 8547;
-   let dataType: string = "$";
-   data = `
+    return data;
+  }
+
+  public getIntExpense() {
+    let data: string;
+    data = `
    <table style="width:100%;height:100%;">
    <td> Interest Expense </td>
-   <td>`+dataType+dbIntExp+`</td>
+   <td>`+ this.intExpDataType + this.dbIntExp + `</td>
    </table>
   `
-  return data;
- }
-public getNonIntExpense(){
-  let data: string;
-  let dbNonIntExp: number = 94162;
-  let dataType: string = "$";
-  data = `
-  <table style="width:100%;height:100%;background-color:grey;">
+    return data;
+  }
+  public getNonIntExpense() {
+    let data: string;
+    data = `
+  <table style="width:100%;height:100%;">
   <td> Non Interest Expense </td>
-  <td>`+dataType+dbNonIntExp+`</td>
+  <td>`+ this.nonIntExpDataType + this.dbNonIntExp + `</td>
   </table>
  `
- return data;
-}
-public getIntIncome(){
-  let data: string;
-  let dbIntInc: number = 97107;
-  let dataType: string = "$";
-  data = `
+    return data;
+  }
+  public getIntIncome() {
+    let data: string;
+    data = `
   <table style="width:100%;height:100%;">
   <td> Interest Income </td>
-  <td>`+dataType+dbIntInc+`</td>
+  <td>`+ this.intIncDataType + this.dbIntInc + `</td>
   </table>
  `
- return data;
-}
-public getNonIntIncome(){
-  let data: string;
-  let dbNonIntExp: number = 50636;
-  let dataType: string = "$";
-  data = `
+    return data;
+  }
+  public getNonIntIncome() {
+    let data: string;
+
+    data = `
   <table style="width:100%;height:100%;padding:0;">
   <td> Non Interest Income </td>
-  <td>`+dataType+dbNonIntExp+`</td>
+  <td>`+ this.nonIntIncDataType + this.dbNonIntInc + `</td>
   </table>
  `
- return data;
-}
-public getSalariesBenefits(){
-  let data: string;
-  let dbSalBen: number = 53486;
-  let dataType: string = "$";
-  data = `
+    return data;
+  }
+  public getSalariesBenefits() {
+    let data: string;
+
+    data = `
   <table style="width:100%;height:100%;padding:0;">
   <td> Salaries & Benefits </td>
-  <td>`+dataType+dbSalBen+`</td>
+  <td>`+ this.salBenDataType + this.dbSalBen + `</td>
   </table>
  `
- return data;
-}
-public getOccuppancy(){
-  let data: string;
-  let dbOccupancy: number = 12545;
-  let dataType: string = "$";
-  data = `
+    return data;
+  }
+  public getOccuppancy() {
+    let data: string;
+
+    data = `
   <table style="width:100%;height:100%;padding:0;">
   <td> Occupancy </td>
-  <td>`+dataType+dbOccupancy+`</td>
+  <td>`+ this.occupancyDataType + this.dbOccupancy + `</td>
   </table>
  `
- return data;
-}
-public getDataProcessing(){
-  let data: string;
-  let dbDataProc: number = 8406;
-  let dataType: string = "$";
-  data = `
+    return data;
+  }
+  public getDataProcessing() {
+    let data: string;
+
+    data = `
   <table style="width:100%;height:100%;padding:0;">
   <td> Data Processing </td>
-  <td>`+dataType+dbDataProc+`</td>
+  <td>`+ this.dataProcDataType + this.dbDataProc + `</td>
   </table>
  `
- return data;
-}
-public getPromAdvert(){
-  let data: string;
-  let dbPromAdvert: number = 2832;
-  let dataType: string = "$";
-  data = `
+    return data;
+  }
+  public getPromAdvert() {
+    let data: string;
+
+    data = `
   <table style="width:100%;height:100%;padding:0;">
   <td> Promotional & Advertising </td>
-  <td>`+dataType+dbPromAdvert+`</td>
+  <td>`+ this.promAdvertDataType + this.dbPromAdvert + `</td>
   </table>
  `
- return data;
-}
-public getFdicIns(){
-  let data: string;
-  let dbFdicIns: number = 1408;
-  let dataType: string = "$";
-  data = `
+    return data;
+  }
+  public getFdicIns() {
+    let data: string;
+    data = `
   <table style="width:100%;height:100%;padding:0;">
   <td> FDIC Insurance </td>
-  <td>`+dataType+dbFdicIns+`</td>
+  <td>`+ this.fdicInsDataType + this.dbFdicIns + `</td>
   </table>
  `
- return data;
-}
-public getAtmSecurOth(){
-  let data: string;
-  let dbAtmSecurOth: number = 15485;
-  let dataType: string = "$";
-  data = `
+    return data;
+  }
+  public getAtmSecurOth() {
+    let data: string;
+
+    data = `
   <table style="width:100%;height:100%;padding:0;">
   <td> ATM, Security and Other </td>
-  <td>`+dataType+dbAtmSecurOth+`</td>
+  <td>`+ this.atmSecurOthDataType + this.dbAtmSecurOth + `</td>
   </table>
  `
- return data;
-}
-public getIntOnLoans(){
-  let data: string;
-  let dbIntOnLoans: number = 79925;
-  let dataType: string = "$";
-  data = `
+    return data;
+  }
+  public getIntOnLoans() {
+    let data: string;
+
+    data = `
   <table style="width:100%;height:100%;padding:0;">
   <td> Interest On Loans </td>
-  <td>`+dataType+dbIntOnLoans+`</td>
+  <td>`+ this.intOnLoansDataType + this.dbIntOnLoans + `</td>
   </table>
  `
- return data;
-}
-public getFeesOnLoans(){
-  let data: string;
-  let dbFeesOnLoans: number = 4509;
-  let dataType: string = "$";
-  data = `
+    return data;
+  }
+  public getFeesOnLoans() {
+    let data: string;
+
+    data = `
   <table style="width:100%;height:100%;padding:0;">
   <td> Fees On Loans </td>
-  <td>`+dataType+dbFeesOnLoans+`</td>
+  <td>`+ this.feesOnLoansDataType + this.dbFeesOnLoans + `</td>
   </table>
  `
- return data;
-}
-public getInvestmentIncome(){
-  let data: string;
-  let dbInvIncome: number = 10922;
-  let dataType: string = "$";
-  data = `
+    return data;
+  }
+  public getInvestmentIncome() {
+    let data: string;
+
+    data = `
   <table style="width:100%;height:100%;padding:0;">
   <td> Investment Income</td>
-  <td>`+dataType+dbInvIncome+`</td>
+  <td>`+ this.invIncomeDataType + this.dbInvIncome + `</td>
   </table>
  `
- return data;
-}
-public getTaxBenExempt(){
-  let data: string;
-  let dbTaxBenExempt: number = 1751;
-  let dataType: string = "$";
-  data = `
+    return data;
+  }
+  public getTaxBenExempt() {
+    let data: string;
+
+    data = `
   <table style="width:100%;height:100%;padding:0;">
   <td> Tax Benefit for Tax-exempt Income </td>
-  <td>`+dataType+dbTaxBenExempt+`</td>
+  <td>`+ this.taxBenExemptDataType + this.dbTaxBenExempt + `</td>
   </table>
  `
- return data;
-}
-public getLoanYield(){
-  let data: string;
-  let dbLoanYield: number = 4.96;
-  let dataType: string = "%";
-  data = `
+    return data;
+  }
+  public getLoanYield() {
+    let data: string;
+
+    data = `
   <table style="width:100%;height:100%;padding:0;">
   <td> Loan Yield </td>
-  <td>`+dbLoanYield+dataType+`</td>
+  <td>`+ this.dbLoanYield + this.loanYieldDataType + `</td>
   </table>
  `
- return data;
-}
-public getLoanVolume(){
-  let data: string;
-  let dbLoanVolume: number = 1921777;
-  let dataType: string = "$";
-  data = `
+    return data;
+  }
+  public getLoanVolume() {
+    let data: string;
+
+    data = `
   <table style="width:100%;height:100%;padding:0;">
   <td> Loan Volume </td>
-  <td>`+dataType+dbLoanVolume+`</td>
+  <td>`+ this.loanVolumeDataType + this.dbLoanVolume + `</td>
   </table>
  `
- return data;
-}
-public getInvSecurYield(){
-  let data: string;
-  let dbInvSecurYield: number = 1.95;
-  let dataType: string = "%";
-  data = `
+    return data;
+  }
+  public getInvSecurYield() {
+    let data: string;
+
+    data = `
   <table style="width:100%;height:100%;padding:0;">
   <td> Investment Security Yield </td>
-  <td>`+dbInvSecurYield+dataType+`</td>
+  <td>`+ this.dbInvSecurYield + this.invSecurYieldDataType + `</td>
   </table>
  `
- return data;
-}
-public getCheckingDeposits(){
-  let data: string;
-  let dbCheckingDep: number = 1142;
-  let dataType: string = "$";
-  data = `
+    return data;
+  }
+  public getCheckingDeposits() {
+    let data: string;
+
+    data = `
   <table style="width:100%;height:100%;padding:0;">
   <td> Checking Deposits </td>
-  <td>`+dataType+dbCheckingDep+`</td>
+  <td>`+ this.checkingDepDataType + this.dbCheckingDep + `</td>
   </table>
  `
- return data;
-}
-public getCertOfDeposits(){
-  let data: string;
-  let dbCertOfDep: number = 1848;
-  let dataType: string = "$";
-  data = `
+    return data;
+  }
+  public getCertOfDeposits() {
+    let data: string;
+
+    data = `
   <table style="width:100%;height:100%;padding:0;">
   <td> Certificate of Deposits </td>
-  <td>`+dataType+dbCertOfDep+`</td>
+  <td>`+ this.certOfDepDataType + this.dbCertOfDep + `</td>
   </table>
  `
- return data;
-}
-public getSaveMoneyMarkDep(){
-  let data: string;
-  let dbSaveMonMarDep :number = 389;
-  let dataType: string = "$";
-  data = `
+    return data;
+  }
+  public getSaveMoneyMarkDep() {
+    let data: string;
+
+    data = `
   <table style="width:100%;height:100%;padding:0;">
   <td> Savings and Money Market Deposits </td>
-  <td>`+dataType+dbSaveMonMarDep+`</td>
+  <td>`+ this.saveMonMarDepDataType + this.dbSaveMonMarDep + `</td>
   </table>
  `
- return data;
-}
-public getOthBorrowedFunds(){
-  let data: string;
-  let dbOthBorFunds: number = 5168;
-  let dataType: string = "$";
-  data = `
+    return data;
+  }
+  public getOthBorrowedFunds() {
+    let data: string;
+
+    data = `
   <table style="width:100%;height:100%;padding:0;">
   <td> Other Borrowed Funds </td>
-  <td>`+dataType+dbOthBorFunds+`</td>
+  <td>`+ this.othBorFundsDataType + this.dbOthBorFunds + `</td>
   </table>
  `
- return data;
-}
-public getServiceChargOnDep(){
-  let data: string;
-  let dbServChargeOnDep: number = 25783;
-  let dataType: string = "$";
-  data = `
+    return data;
+  }
+  public getServiceChargOnDep() {
+    let data: string;
+
+    data = `
   <table style="width:100%;height:100%;padding:0;">
   <td> Service Charge On Deposits </td>
-  <td>`+dataType+dbServChargeOnDep+`</td>
+  <td>`+ this.servChargeOnDepDataType + this.dbServChargeOnDep + `</td>
   </table>
  `
- return data;
-}
-public getWealthManage(){
-  let data: string;
-  let dbWealthManage: number = 9047;
-  let dataType: string = "$";
-  data = `
+    return data;
+  }
+  public getWealthManage() {
+    let data: string;
+
+    data = `
   <table style="width:100%;height:100%;padding:0;">
   <td> Wealth Management Revenue and Other Fee Income </td>
-  <td>`+dataType+dbWealthManage+`</td>
+  <td>`+ this.wealthManageDataType + this.dbWealthManage + `</td>
   </table>
  `
- return data;
-}
-public getCheckcardOther(){
-  let data: string;
-  let dbCheckcardOth: number = 15049;
-  let dataType: string = "$";
-  data = `
+    return data;
+  }
+  public getCheckcardOther() {
+    let data: string;
+    
+    data = `
   <table style="width:100%;height:100%;padding:0;">
   <td> Checkcard, ATM, Mortgage Center and Other </td>
-  <td>`+dataType+dbCheckcardOth+`</td>
+  <td>`+ this.checkcardOthDataType + this.dbCheckcardOth + `</td>
   </table>
  `
- return data;
-}
-public getOREIncome(){
-  let data: string;
-  let dbOREIncome: number = 757;
-  let dataType: string = "$";
-  data = `
+    return data;
+  }
+  public getOREIncome() {
+    let data: string;
+
+    data = `
   <table style="width:100%;height:100%;padding:0;">
   <td> ORE Income</td>
-  <td>`+dataType+dbOREIncome+`</td>
+  <td>`+ this.oreIncomeDataType + this.dbOREIncome + `</td>
   </table>
  `
- return data;
-}
+    return data;
+  }
 }
