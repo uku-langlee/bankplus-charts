@@ -5,7 +5,8 @@ export interface iOrgChart {
         title?: string,
         allowHtml?: boolean,
         allowCollapse?: boolean,
-        nodeClass?: string
+        nodeClass?: string,
+        selectedNodeClass?: string
     },
     formatters?: [
         {

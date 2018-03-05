@@ -12,17 +12,18 @@ export class ChartDetailService {
   public topChart: boolean = false;
   public orgChart1: iOrgChart;
   public orgChart2: iOrgChart;
+  //DataColor = database color. String is injected in HTML
+  //DataType = database data type (either $ or % usually). String is injected in HTML
+  //db = The actual database value
+
+  //first page table
   public topTitle: string = `
   <div class="topTitle">
     <h1> Bankplus</h1>
     <br>
     <h3>Corporate Goals</h3>
   </div>`;
-  //first page table
-  //DataColor = database color. String is injected in HTML
-  //DataType = database data type (either $ or % usually). String is injected in HTML
-  //db = The actual database value
-  public dbRoa:number = 10.75;
+  public dbRoa: number = 10.75;
   public roaDataColor: string;
   public roaDataType: string = "%"
   public dbEr: number = 65.75;
@@ -76,57 +77,82 @@ export class ChartDetailService {
   public oreIncome;
 
   public dbIntExp: number = 8547;
+  public intExpDataColor: string;
   public intExpDataType: string = "$";
   public dbNonIntExp: number = 94162;
+  public nonIntExpDataColor: string;
   public nonIntExpDataType: string = "$";
   public dbIntInc: number = 97107;
+  public intInDataColor: string;
   public intIncDataType: string = "$";
   public dbNonIntInc: number = 50636;
+  public nonIntIncDataColor: string;
   public nonIntIncDataType: string = "$";
   public dbSalBen: number = 53486;
+  public salBenDataColor: string;
   public salBenDataType: string = "$";
   public dbOccupancy: number = 12545;
+  public occupancyDataColor: string;
   public occupancyDataType: string = "$";
   public dbDataProc: number = 8406;
+  public dataProcDataColor: string;
   public dataProcDataType: string = "$";
   public dbPromAdvert: number = 2832;
+  public promAdvertDataColor: string;
   public promAdvertDataType: string = "$";
   public dbFdicIns: number = 1408;
+  public fdicInsDataColor: string;
   public fdicInsDataType: string = "$";
   public dbAtmSecurOth: number = 15485;
+  public atmSecurOthDataColor: string;
   public atmSecurOthDataType: string = "$";
   public dbIntOnLoans: number = 79925;
+  public intOnLoansDataColor: string;
   public intOnLoansDataType: string = "$";
   public dbFeesOnLoans: number = 4509;
+  public feesOnLoansDataColor: string;
   public feesOnLoansDataType: string = "$";
   public dbInvIncome: number = 10922;
+  public invIncomeDataColor: string;
   public invIncomeDataType: string = "$";
   public dbTaxBenExempt: number = 1751;
+  public taxBenExemptDataColor: string;
   public taxBenExemptDataType: string = "$";
   public dbLoanYield: number = 4.96;
+  public loanYieldDataColor: string;
   public loanYieldDataType: string = "%";
   public dbLoanVolume: number = 1921777;
+  public loanVolumeDataColor: string;
   public loanVolumeDataType: string = "$";
   public dbInvSecurYield: number = 1.95;
+  public invSecurYieldDataColor: string;
   public invSecurYieldDataType: string = "%";
   public dbCheckingDep: number = 1142;
+  public checkingDepDataColor: string;
   public checkingDepDataType: string = "$";
   public dbCertOfDep: number = 1848;
+  public certOfDepDataColor: string;
   public certOfDepDataType: string = "$";
   public dbSaveMonMarDep: number = 389;
+  public saveMonMarDepDataColor: string;
   public saveMonMarDepDataType: string = "$";
   public dbOthBorFunds: number = 5168;
+  public othBorFundsDataColor: string;
   public othBorFundsDataType: string = "$";
   public dbServChargeOnDep: number = 25783;
+  public servChargeOnDepDataColor: string;
   public servChargeOnDepDataType: string = "$";
   public dbWealthManage: number = 9047;
+  public wealthManageDataColor: string;
   public wealthManageDataType: string = "$";
   public dbOREIncome: number = 757;
+  public oreIncomeDataColor: string;
   public oreIncomeDataType: string = "$";
   public dbCheckcardOth: number = 15049;
+  public checkcardOthDataColor: string;
   public checkcardOthDataType: string = "$";
 
-  constructor(){
+  constructor() {
     this.oreIncome = { v: 'oreIncome', f: this.getOREIncome() };
     this.intExpense = { v: 'intExp', f: this.getIntExpense() };
     this.nonIntExpense = { v: 'nonIntExp', f: this.getNonIntExpense() };
@@ -169,16 +195,8 @@ export class ChartDetailService {
         allowHtml: true,
         allowCollapse: true,
         nodeClass: 'topChart'
-      },
-      formatters: [
-        {
-          columns: [1, 2],
-          type: 'NumberFormat',
-          options: {
-            prefix: '&euro;', negativeColor: '#FF0000', negativeParens: true
-          }
-        }
-      ]
+      }
+
     }
     return this.orgChart1;
   }
@@ -217,17 +235,10 @@ export class ChartDetailService {
         title: 'Efficiency Ratios',
         allowHtml: true,
         allowCollapse: true,
-        nodeClass: 'topChart'
+        nodeClass: 'topChart',
+        selectedNodeClass: 'selected'
       },
-      formatters: [
-        {
-          columns: [1, 2],
-          type: 'NumberFormat',
-          options: {
-            prefix: '&euro;', negativeColor: '#FF0000', negativeParens: true
-          }
-        }
-      ],
+      
     }
     return this.orgChart2;
   }
@@ -242,7 +253,7 @@ export class ChartDetailService {
     return this.topChart;
   }
   public getRoaData() {
-    let data: string;  
+    let data: string;
 
     if (this.dbRoa > 2) {
       this.roaDataColor = "red";
@@ -320,7 +331,7 @@ export class ChartDetailService {
   }
   public getRoeData() {
     let data: string;
-   
+
 
     if (this.dbRoe < 10) {
       this.roeDataColor = "red";
@@ -348,8 +359,8 @@ export class ChartDetailService {
     let data: string;
     data = `
    <table style="width:100%;height:100%;">
-   <td> Interest Expense </td>
-   <td>`+ this.intExpDataType + this.dbIntExp + `</td>
+   <td style="text-align: left;"> Interest Expense </td>
+   <td style="text-align: right;">`+ this.intExpDataType + this.dbIntExp + `</td>
    </table>
   `
     return data;
@@ -358,8 +369,8 @@ export class ChartDetailService {
     let data: string;
     data = `
   <table style="width:100%;height:100%;">
-  <td> Non Interest Expense </td>
-  <td>`+ this.nonIntExpDataType + this.dbNonIntExp + `</td>
+  <td style="text-align: left;"> Non Interest Expense </td>
+  <td style="text-align: right;">`+ this.nonIntExpDataType + this.dbNonIntExp + `</td>
   </table>
  `
     return data;
@@ -368,8 +379,8 @@ export class ChartDetailService {
     let data: string;
     data = `
   <table style="width:100%;height:100%;">
-  <td> Interest Income </td>
-  <td>`+ this.intIncDataType + this.dbIntInc + `</td>
+  <td style="text-align: left;"> Interest Income </td>
+  <td style="text-align: right;">`+ this.intIncDataType + this.dbIntInc + `</td>
   </table>
  `
     return data;
@@ -379,8 +390,8 @@ export class ChartDetailService {
 
     data = `
   <table style="width:100%;height:100%;padding:0;">
-  <td> Non Interest Income </td>
-  <td>`+ this.nonIntIncDataType + this.dbNonIntInc + `</td>
+  <td style="text-align: left;"> Non Interest Income </td>
+  <td style="text-align: right;">`+ this.nonIntIncDataType + this.dbNonIntInc + `</td>
   </table>
  `
     return data;
@@ -390,8 +401,8 @@ export class ChartDetailService {
 
     data = `
   <table style="width:100%;height:100%;padding:0;">
-  <td> Salaries & Benefits </td>
-  <td>`+ this.salBenDataType + this.dbSalBen + `</td>
+  <td style="text-align: left;"> Salaries & Benefits </td>
+  <td style="text-align: right;">`+ this.salBenDataType + this.dbSalBen + `</td>
   </table>
  `
     return data;
@@ -401,8 +412,8 @@ export class ChartDetailService {
 
     data = `
   <table style="width:100%;height:100%;padding:0;">
-  <td> Occupancy </td>
-  <td>`+ this.occupancyDataType + this.dbOccupancy + `</td>
+  <td style="text-align: left;"> Occupancy </td>
+  <td style="text-align: right;">`+ this.occupancyDataType + this.dbOccupancy + `</td>
   </table>
  `
     return data;
@@ -412,8 +423,8 @@ export class ChartDetailService {
 
     data = `
   <table style="width:100%;height:100%;padding:0;">
-  <td> Data Processing </td>
-  <td>`+ this.dataProcDataType + this.dbDataProc + `</td>
+  <td style="text-align: left;"> Data Processing </td>
+  <td style="text-align: right;">`+ this.dataProcDataType + this.dbDataProc + `</td>
   </table>
  `
     return data;
@@ -423,8 +434,8 @@ export class ChartDetailService {
 
     data = `
   <table style="width:100%;height:100%;padding:0;">
-  <td> Promotional & Advertising </td>
-  <td>`+ this.promAdvertDataType + this.dbPromAdvert + `</td>
+  <td style="text-align: left;"> Promotional & Advertising </td>
+  <td style="text-align: right;">`+ this.promAdvertDataType + this.dbPromAdvert + `</td>
   </table>
  `
     return data;
@@ -433,8 +444,8 @@ export class ChartDetailService {
     let data: string;
     data = `
   <table style="width:100%;height:100%;padding:0;">
-  <td> FDIC Insurance </td>
-  <td>`+ this.fdicInsDataType + this.dbFdicIns + `</td>
+  <td style="text-align: left;"> FDIC Insurance </td>
+  <td style="text-align: right;">`+ this.fdicInsDataType + this.dbFdicIns + `</td>
   </table>
  `
     return data;
@@ -444,8 +455,8 @@ export class ChartDetailService {
 
     data = `
   <table style="width:100%;height:100%;padding:0;">
-  <td> ATM, Security and Other </td>
-  <td>`+ this.atmSecurOthDataType + this.dbAtmSecurOth + `</td>
+  <td style="text-align: left;"> ATM, Security and Other </td>
+  <td style="text-align: right;">`+ this.atmSecurOthDataType + this.dbAtmSecurOth + `</td>
   </table>
  `
     return data;
@@ -455,8 +466,8 @@ export class ChartDetailService {
 
     data = `
   <table style="width:100%;height:100%;padding:0;">
-  <td> Interest On Loans </td>
-  <td>`+ this.intOnLoansDataType + this.dbIntOnLoans + `</td>
+  <td style="text-align: left;"> Interest On Loans </td>
+  <td style="text-align: right;">`+ this.intOnLoansDataType + this.dbIntOnLoans + `</td>
   </table>
  `
     return data;
@@ -466,8 +477,8 @@ export class ChartDetailService {
 
     data = `
   <table style="width:100%;height:100%;padding:0;">
-  <td> Fees On Loans </td>
-  <td>`+ this.feesOnLoansDataType + this.dbFeesOnLoans + `</td>
+  <td style="text-align: left;"> Fees On Loans </td>
+  <td style="text-align: right;">`+ this.feesOnLoansDataType + this.dbFeesOnLoans + `</td>
   </table>
  `
     return data;
@@ -477,8 +488,8 @@ export class ChartDetailService {
 
     data = `
   <table style="width:100%;height:100%;padding:0;">
-  <td> Investment Income</td>
-  <td>`+ this.invIncomeDataType + this.dbInvIncome + `</td>
+  <td style="text-align: left;"> Investment Income</td>
+  <td style="text-align: right;">`+ this.invIncomeDataType + this.dbInvIncome + `</td>
   </table>
  `
     return data;
@@ -488,8 +499,8 @@ export class ChartDetailService {
 
     data = `
   <table style="width:100%;height:100%;padding:0;">
-  <td> Tax Benefit for Tax-exempt Income </td>
-  <td>`+ this.taxBenExemptDataType + this.dbTaxBenExempt + `</td>
+  <td style="text-align: left;"> Tax Benefit for Tax-exempt Income </td>
+  <td style="text-align: right;">`+ this.taxBenExemptDataType + this.dbTaxBenExempt + `</td>
   </table>
  `
     return data;
@@ -499,8 +510,8 @@ export class ChartDetailService {
 
     data = `
   <table style="width:100%;height:100%;padding:0;">
-  <td> Loan Yield </td>
-  <td>`+ this.dbLoanYield + this.loanYieldDataType + `</td>
+  <td style="text-align: left;"> Loan Yield </td>
+  <td style="text-align: right;">`+ this.dbLoanYield + this.loanYieldDataType + `</td>
   </table>
  `
     return data;
@@ -510,8 +521,8 @@ export class ChartDetailService {
 
     data = `
   <table style="width:100%;height:100%;padding:0;">
-  <td> Loan Volume </td>
-  <td>`+ this.loanVolumeDataType + this.dbLoanVolume + `</td>
+  <td style="text-align: left;"> Loan Volume </td>
+  <td style="text-align: right;">`+ this.loanVolumeDataType + this.dbLoanVolume + `</td>
   </table>
  `
     return data;
@@ -521,8 +532,8 @@ export class ChartDetailService {
 
     data = `
   <table style="width:100%;height:100%;padding:0;">
-  <td> Investment Security Yield </td>
-  <td>`+ this.dbInvSecurYield + this.invSecurYieldDataType + `</td>
+  <td style="text-align: left;"> Investment Security Yield </td>
+  <td style="text-align: right;">`+ this.dbInvSecurYield + this.invSecurYieldDataType + `</td>
   </table>
  `
     return data;
@@ -532,8 +543,8 @@ export class ChartDetailService {
 
     data = `
   <table style="width:100%;height:100%;padding:0;">
-  <td> Checking Deposits </td>
-  <td>`+ this.checkingDepDataType + this.dbCheckingDep + `</td>
+  <td style="text-align: left;"> Checking Deposits </td>
+  <td style="text-align: right;">`+ this.checkingDepDataType + this.dbCheckingDep + `</td>
   </table>
  `
     return data;
@@ -543,8 +554,8 @@ export class ChartDetailService {
 
     data = `
   <table style="width:100%;height:100%;padding:0;">
-  <td> Certificate of Deposits </td>
-  <td>`+ this.certOfDepDataType + this.dbCertOfDep + `</td>
+  <td style="text-align: left;"> Certificate of Deposits </td>
+  <td style="text-align: right;">`+ this.certOfDepDataType + this.dbCertOfDep + `</td>
   </table>
  `
     return data;
@@ -554,8 +565,8 @@ export class ChartDetailService {
 
     data = `
   <table style="width:100%;height:100%;padding:0;">
-  <td> Savings and Money Market Deposits </td>
-  <td>`+ this.saveMonMarDepDataType + this.dbSaveMonMarDep + `</td>
+  <td style="text-align: left;"> Savings and Money Market Deposits </td>
+  <td style="text-align: right;">`+ this.saveMonMarDepDataType + this.dbSaveMonMarDep + `</td>
   </table>
  `
     return data;
@@ -565,8 +576,8 @@ export class ChartDetailService {
 
     data = `
   <table style="width:100%;height:100%;padding:0;">
-  <td> Other Borrowed Funds </td>
-  <td>`+ this.othBorFundsDataType + this.dbOthBorFunds + `</td>
+  <td style="text-align: left;"> Other Borrowed Funds </td>
+  <td style="text-align: right;">`+ this.othBorFundsDataType + this.dbOthBorFunds + `</td>
   </table>
  `
     return data;
@@ -576,8 +587,8 @@ export class ChartDetailService {
 
     data = `
   <table style="width:100%;height:100%;padding:0;">
-  <td> Service Charge On Deposits </td>
-  <td>`+ this.servChargeOnDepDataType + this.dbServChargeOnDep + `</td>
+  <td style="text-align: left;"> Service Charge On Deposits </td>
+  <td style="text-align: right;">`+ this.servChargeOnDepDataType + this.dbServChargeOnDep + `</td>
   </table>
  `
     return data;
@@ -587,19 +598,19 @@ export class ChartDetailService {
 
     data = `
   <table style="width:100%;height:100%;padding:0;">
-  <td> Wealth Management Revenue and Other Fee Income </td>
-  <td>`+ this.wealthManageDataType + this.dbWealthManage + `</td>
+  <td style="text-align: left;"> Wealth Management Revenue and Other Fee Income </td>
+  <td style="text-align: right;">`+ this.wealthManageDataType + this.dbWealthManage + `</td>
   </table>
  `
     return data;
   }
   public getCheckcardOther() {
     let data: string;
-    
+
     data = `
   <table style="width:100%;height:100%;padding:0;">
-  <td> Checkcard, ATM, Mortgage Center and Other </td>
-  <td>`+ this.checkcardOthDataType + this.dbCheckcardOth + `</td>
+  <td style="text-align: left;"> Checkcard, ATM, Mortgage Center and Other </td>
+  <td style="text-align: right;">`+ this.checkcardOthDataType + this.dbCheckcardOth + `</td>
   </table>
  `
     return data;
@@ -609,8 +620,8 @@ export class ChartDetailService {
 
     data = `
   <table style="width:100%;height:100%;padding:0;">
-  <td> ORE Income</td>
-  <td>`+ this.oreIncomeDataType + this.dbOREIncome + `</td>
+  <td style="text-align: left;"> ORE Income</td>
+  <td style="text-align: right;">`+ this.oreIncomeDataType + this.dbOREIncome + `</td>
   </table>
  `
     return data;

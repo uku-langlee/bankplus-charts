@@ -59,7 +59,6 @@ export class OrgChartComponent implements OnInit {
   public select(event: ChartSelectEvent) {
     this.selectEvent = event;
     if (event.row === 1) {
-      console.log(event.selectedRowValues)
       this.chartDetailService.changeTopChart();
     }
   }

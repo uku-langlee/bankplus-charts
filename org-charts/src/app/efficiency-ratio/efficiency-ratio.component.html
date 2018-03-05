@@ -4,5 +4,5 @@
 [data]="orgChartData" 
 (chartSelect)='select($event)'
 (chartReady)='ready($event)'
-(click)='loadEvent()'
+(chartFormatter)='loadEvent($event)'
 ></google-chart>

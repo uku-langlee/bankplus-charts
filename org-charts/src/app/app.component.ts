@@ -8,26 +8,22 @@ import { ChartDetailService } from './chart-detail.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  //public orgChart: OrgChartComponent;
   public orgChartDisplay: boolean = true;
 
-  constructor(public chartDetailService:ChartDetailService){
+  constructor(public chartDetailService: ChartDetailService) {
   }
 
-  ngOnInit(){
-    //console.log(this.orgChart);
+  ngOnInit() {
   }
 
- public showOrgChart():boolean{
-   this.orgChartDisplay = this.chartDetailService.getTopChart();
-   console.log(this.orgChartDisplay);
-   return this.orgChartDisplay;
- }
- public backToOrgChart():boolean{
-  this.orgChartDisplay = !this.chartDetailService.getTopChart();
-   console.log(this.orgChartDisplay);
-   return this.orgChartDisplay;
- }
-  
+  public showOrgChart(): boolean {
+    this.orgChartDisplay = this.chartDetailService.getTopChart();
+    return this.orgChartDisplay;
+  }
+  public backToOrgChart(): boolean {
+    this.orgChartDisplay = !this.chartDetailService.getTopChart();
+    return this.orgChartDisplay;
+  }
+
 }
 

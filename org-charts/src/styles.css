@@ -8,6 +8,11 @@
 	width: 200px;
 	border: 1px solid grey;
 }
+.selected{
+    background:rgb(255, 255, 255) ;
+	width: 200px;
+	border: 1px solid grey;
+}
 .google-visualization-orgchart-lineleft {
 	border-left: 2px solid grey!important;
 }
