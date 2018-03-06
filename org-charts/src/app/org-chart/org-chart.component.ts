@@ -35,7 +35,7 @@ export class OrgChartComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.orgChartData = this.chartDetailService.getOrgChart1();
+    this.orgChartData = this.chartDetailService.getFrontOrgChart();
     this.topChart = this.chartDetailService.changeTopChart();
     this.topChart = true;
    

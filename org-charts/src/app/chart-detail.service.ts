@@ -13,36 +13,19 @@ export class ChartDetailService {
   public topChart: boolean = false;
   public orgChart1: iOrgChart;
   public orgChart2: iOrgChart;
+  
   //DataColor = database color. String is injected in HTML
   //DataType = database data type (either $ or % usually). String is injected in HTML
   //db = The actual database value
 
-  //first page table
+  //First Page Table Title
   public topTitle: string = `
   <div class="topTitle">
     <h1> Bankplus</h1>
     <br>
     <h3>Corporate Goals</h3>
   </div>`;
-  public dbRoa: number = 10.75;
-  public roaDataColor: string;
-  public roaDataType: string = "%"
-  public dbEr: number = 65.75;
-  public erDataColor: string;
-  public erDataType: string = "%";
-  public dbPre: number = 47625;
-  public preMax = 1000000;
-  public preDataColor: string;
-  public preDataType: string = "$";
-  public dbRoe: number = 10.99;
-  public roeDataColor: string;
-  public roeDataType: string = "%";
-  //Actual Data Table rows for chart. v: is just a meaningless title. f: is the actual value.
-  public roa = { v: 'roaData', f: this.getRoaData() }
-  public er = { v: 'erData', f: this.getErData() }
-  public pre = { v: 'preData', f: this.getPreData() }
-  public roe = { v: 'roeData', f: this.getRoeData() }
-
+  //Efficiency Ratio Table Title
   public erTitle: string = `
   <div class="topTitle">
     <h1> Bankplus</h1>
@@ -50,7 +33,115 @@ export class ChartDetailService {
     <h2> Dollar Amount</h2>
     <br>
     <h3>Noninterest expense / (Interest income - interest expense + noninterest income)  </h3>
-  </div>`;
+  </div>`; 
+
+  //Actual Values: First Page
+  public dbRoa: number = 10.75;
+  public dbEr: number = 65.75;
+  public dbPre: number = 47625;
+  public dbRoe: number = 10.99;
+
+  //Actual Values: Efficiency Ratio
+  public dbIntExp: number = 8547;
+  public dbNonIntExp: number = 94162;
+  public dbIntInc: number = 97107;
+  public dbNonIntInc: number = 50636;
+  public dbSalBen: number = 53486;
+  public dbOccupancy: number = 12545;
+  public dbDataProc: number = 8406;
+  public dbPromAdvert: number = 2832;
+  public dbFdicIns: number = 1408;
+  public dbAtmSecurOth: number = 15485;
+  public dbIntOnLoans: number = 79925;
+  public dbFeesOnLoans: number = 4509;
+  public dbInvIncome: number = 10922;
+  public dbTaxBenExempt: number = 1751;
+  public dbLoanYield: number = 4.96;
+  public dbLoanVolume: number = 1921777;
+  public dbInvSecurYield: number = 1.95;
+  public dbCheckingDep: number = 1142;
+  public dbCertOfDep: number = 1848;
+  public dbSaveMonMarDep: number = 389;
+  public dbOthBorFunds: number = 5168;
+  public dbServChargeOnDep: number = 25783;
+  public dbWealthManage: number = 9047;
+  public dbOREIncome: number = 757;
+  public dbCheckcardOth: number = 15049;
+
+  //Data Types ($ or %): First Page
+  public roaDataType: string = "%";
+  public erDataType: string = "%";
+  public preDataType: string = "$";
+  public roeDataType: string = "%";
+
+  //Data Types: Efficiency Ratio
+  public intExpDataType: string = "$";
+  public nonIntExpDataType: string = "$";
+  public intIncDataType: string = "$";
+  public nonIntIncDataType: string = "$";
+  public salBenDataType: string = "$";
+  public occupancyDataType: string = "$";
+  public dataProcDataType: string = "$";
+  public promAdvertDataType: string = "$";
+  public fdicInsDataType: string = "$";
+  public atmSecurOthDataType: string = "$";
+  public intOnLoansDataType: string = "$";
+  public feesOnLoansDataType: string = "$";
+  public invIncomeDataType: string = "$";
+  public taxBenExemptDataType: string = "$";
+  public loanYieldDataType: string = "%";
+  public loanVolumeDataType: string = "$";
+  public invSecurYieldDataType: string = "%";
+  public checkingDepDataType: string = "$";
+  public certOfDepDataType: string = "$";
+  public saveMonMarDepDataType: string = "$";
+  public othBorFundsDataType: string = "$";
+  public servChargeOnDepDataType: string = "$";
+  public wealthManageDataType: string = "$";
+  public oreIncomeDataType: string = "$";
+  public checkcardOthDataType: string = "$";
+
+  //Data Colors: First Page
+  public roaDataColor: string;  
+  public erDataColor: string;
+  public preDataColor: string;
+  public roeDataColor: string;
+
+  //Data Color: Efficiency Ratio
+  public intExpDataColor: string = "green";
+  public nonIntExpDataColor: string;
+  public intIncDataColor: string;
+  public nonIntIncDataColor: string;
+  public salBenDataColor: string;
+  public occupancyDataColor: string;
+  public dataProcDataColor: string;
+  public promAdvertDataColor: string;
+  public fdicInsDataColor: string;
+  public atmSecurOthDataColor: string;
+  public intOnLoansDataColor: string;
+  public feesOnLoansDataColor: string;
+  public invIncomeDataColor: string;
+  public taxBenExemptDataColor: string;
+  public loanYieldDataColor: string;
+  public loanVolumeDataColor: string;
+  public invSecurYieldDataColor: string;
+  public checkingDepDataColor: string;
+  public certOfDepDataColor: string;
+  public saveMonMarDepDataColor: string;
+  public othBorFundsDataColor: string;
+  public servChargeOnDepDataColor: string;
+  public wealthManageDataColor: string;
+  public oreIncomeDataColor: string;
+  public checkcardOthDataColor: string;
+
+  //Actual Data Table rows for first chart. v: is just a meaningless title. f: is the actual value.
+  public roa = { v: 'roaData', f: this.getRoaData() }
+  public er = { v: 'erData', f: this.getErData() }
+  public pre = { v: 'preData', f: this.getPreData() }
+  public roe = { v: 'roeData', f: this.getRoeData() } 
+  
+
+  //Variables for initialized Data Objects as seen in constructor()
   public intExpense;
   public nonIntExpense;
   public intIncome;
@@ -77,83 +168,8 @@ export class ChartDetailService {
   public checkcardOther;
   public oreIncome;
 
-  public dbIntExp: number = 8547;
-  public intExpDataColor: string = "green";
-  public intExpDataType: string = "$";
-  public dbNonIntExp: number = 94162;
-  public nonIntExpDataColor: string;
-  public nonIntExpDataType: string = "$";
-  public dbIntInc: number = 97107;
-  public intIncDataColor: string;
-  public intIncDataType: string = "$";
-  public dbNonIntInc: number = 50636;
-  public nonIntIncDataColor: string;
-  public nonIntIncDataType: string = "$";
-  public dbSalBen: number = 53486;
-  public salBenDataColor: string;
-  public salBenDataType: string = "$";
-  public dbOccupancy: number = 12545;
-  public occupancyDataColor: string;
-  public occupancyDataType: string = "$";
-  public dbDataProc: number = 8406;
-  public dataProcDataColor: string;
-  public dataProcDataType: string = "$";
-  public dbPromAdvert: number = 2832;
-  public promAdvertDataColor: string;
-  public promAdvertDataType: string = "$";
-  public dbFdicIns: number = 1408;
-  public fdicInsDataColor: string;
-  public fdicInsDataType: string = "$";
-  public dbAtmSecurOth: number = 15485;
-  public atmSecurOthDataColor: string;
-  public atmSecurOthDataType: string = "$";
-  public dbIntOnLoans: number = 79925;
-  public intOnLoansDataColor: string;
-  public intOnLoansDataType: string = "$";
-  public dbFeesOnLoans: number = 4509;
-  public feesOnLoansDataColor: string;
-  public feesOnLoansDataType: string = "$";
-  public dbInvIncome: number = 10922;
-  public invIncomeDataColor: string;
-  public invIncomeDataType: string = "$";
-  public dbTaxBenExempt: number = 1751;
-  public taxBenExemptDataColor: string;
-  public taxBenExemptDataType: string = "$";
-  public dbLoanYield: number = 4.96;
-  public loanYieldDataColor: string;
-  public loanYieldDataType: string = "%";
-  public dbLoanVolume: number = 1921777;
-  public loanVolumeDataColor: string;
-  public loanVolumeDataType: string = "$";
-  public dbInvSecurYield: number = 1.95;
-  public invSecurYieldDataColor: string;
-  public invSecurYieldDataType: string = "%";
-  public dbCheckingDep: number = 1142;
-  public checkingDepDataColor: string;
-  public checkingDepDataType: string = "$";
-  public dbCertOfDep: number = 1848;
-  public certOfDepDataColor: string;
-  public certOfDepDataType: string = "$";
-  public dbSaveMonMarDep: number = 389;
-  public saveMonMarDepDataColor: string;
-  public saveMonMarDepDataType: string = "$";
-  public dbOthBorFunds: number = 5168;
-  public othBorFundsDataColor: string;
-  public othBorFundsDataType: string = "$";
-  public dbServChargeOnDep: number = 25783;
-  public servChargeOnDepDataColor: string;
-  public servChargeOnDepDataType: string = "$";
-  public dbWealthManage: number = 9047;
-  public wealthManageDataColor: string;
-  public wealthManageDataType: string = "$";
-  public dbOREIncome: number = 757;
-  public oreIncomeDataColor: string;
-  public oreIncomeDataType: string = "$";
-  public dbCheckcardOth: number = 15049;
-  public checkcardOthDataColor: string;
-  public checkcardOthDataType: string = "$";
-
   constructor() {
+    //Actual Data Table rows for Efficiency Ratio chart. v: is just a meaningless title. f: is the actual value.
     this.oreIncome = { v: 'oreIncome', f: this.getOREIncome() };
     this.intExpense = { v: 'intExp', f: this.getIntExpense() };
     this.nonIntExpense = { v: 'nonIntExp', f: this.getNonIntExpense() };
@@ -181,7 +197,7 @@ export class ChartDetailService {
     this.checkcardOther = { v: 'checkcardOther', f: this.getCheckcardOther() };
   }
 
-  public getOrgChart1(): iOrgChart {
+  public getFrontOrgChart(): iOrgChart {
     this.orgChart1 = {
       chartType: 'OrgChart',
       dataTable: [
@@ -201,7 +217,7 @@ export class ChartDetailService {
     }
     return this.orgChart1;
   }
-  public getOrgChart2(): iOrgChart {
+  public getEfficiencyRatioOrgChart(): iOrgChart {
     this.orgChart2 = {
       chartType: 'OrgChart',
       dataTable: [
@@ -243,25 +259,21 @@ export class ChartDetailService {
     }
     return this.orgChart2;
   }
-
+  //Determines which chart to show, or which is "on top"
   public getTopChart(): boolean {
 
     return this.topChart;
   }
+  //Toggles to change which chart is "on top"
   public changeTopChart(): boolean {
     this.topChart = !this.topChart;
     return this.topChart;
   }
+
+  //***Each Method below this point returns the data with the properly formatted html inserted. Each variable for data, color, and data type is concatenated***
+  //***within the inserted html. Some styling has been done inline, including styling that varies from node to node or relies on database values***
   public getRoaData() {
     let data: string;
-
-    if (this.dbRoa > 2) {
-      this.roaDataColor = "red";
-    }
-    else {
-      this.roaDataColor = "green";
-    }
-
     data = `
   <div class="topRoa">
     <div class="roaTitle">

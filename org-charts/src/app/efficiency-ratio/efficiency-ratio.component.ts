@@ -29,7 +29,7 @@ export class EfficiencyRatioComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.orgChartData = this.chartDetailService.getOrgChart2();
+    this.orgChartData = this.chartDetailService.getEfficiencyRatioOrgChart();
   }
 
   public getTopChart(): void {
