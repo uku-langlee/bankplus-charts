@@ -37,7 +37,7 @@ export class ChartDetailService {
   public dbRoe: number = 10.99;
   public roeDataColor: string;
   public roeDataType: string = "%";
-  //Actual Data Table rows for chart. v: is just a menaingless title. f: is the actual value.
+  //Actual Data Table rows for chart. v: is just a meaningless title. f: is the actual value.
   public roa = { v: 'roaData', f: this.getRoaData() }
   public er = { v: 'erData', f: this.getErData() }
   public pre = { v: 'preData', f: this.getPreData() }
